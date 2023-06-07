@@ -6,14 +6,60 @@ import (
 	"fmt"
 	"math/big"
 	"net"
+	"strings"
 
 	"golang.org/x/net/dns/dnsmessage"
 )
 
 const ROOT_SERVERS = "198.41.0.4,199.9.14.201,192.33.4.12,199.7.91.13,192.203.230.10,192.5.5.241,192.112.36.4,198.97.190.53"
 
+func HandlePacket(pc net.PacketConn, addr net.Addr, buf []byte) {
+	if err := handlePacket(pc, addr, buf); err != nil {
+		fmt.Printf("handlePacket error %s: %s\n", addr.String(), err)
+	}
+}
+
 func handlePacket(pc net.PacketConn, addr net.Addr, buf []byte) error {
+	parse := dnsmessage.Parser{}
+	header, err := parse.Start(buf)
+	if err != nil {
+		return err
+	}
+	question, err := parse.Question()
+	if err != nil {
+		return err
+	}
+
+	response, err := dnsQuery(getRootServers(), question)
+	if err != nil {
+		return err
+	}
+
+	response.Header.ID = header.ID
+	responseBuffer, err := response.Pack()
+	if err != nil {
+		return err
+	}
+
+	_, err = pc.WriteTo(responseBuffer, addr)
+	if err != nil {
+		return err
+	}
+
 	return fmt.Errorf("not implemented yet")
+}
+
+func dnsQuery(servers []net.IP, question dnsmessage.Question) (*dnsmessage.Message, error) {
+	fmt.Printf("Question: %+v\n", question)
+	return &dnsmessage.Message{Header: dnsmessage.Header{RCode: dnsmessage.RCodeServerFailure}}, nil
+}
+
+func getRootServers() []net.IP {
+	rootServers := []net.IP{}
+	for _, server := range strings.Split(ROOT_SERVERS, ",") {
+		rootServers = append(rootServers, net.ParseIP(server))
+	}
+	return rootServers
 }
 
 func outgoingDnsQuery(servers []net.IP, question dnsmessage.Question) (*dnsmessage.Parser, *dnsmessage.Header, error) {
