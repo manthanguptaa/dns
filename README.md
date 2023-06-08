@@ -2,6 +2,9 @@
 
 This project is a DNS server and resolver implemented in the Go programming language. It provides the functionality to act as a DNS server, receiving DNS queries and responding with the appropriate DNS records. Additionally, it can function as a DNS resolver, allowing users to query external DNS servers for DNS records.
 
+![ezgif com-gif-maker](https://github.com/Manthan109/dns/assets/42516515/d881ef8b-601b-4c06-b44e-d4a876893392)
+
+
 ## Features
 
 - DNS server: Accepts incoming DNS queries and responds with the appropriate DNS records.
