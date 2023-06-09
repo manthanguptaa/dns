@@ -59,8 +59,8 @@ This is a simple DNS server and resolver that works only on UDP for now and IPv4
 ![logical-flow](https://github.com/Manthan109/dns/assets/42516515/43edf0bd-3692-4661-b70d-400ed32d7993)
 
 ## References
-https://amriunix.com/post/deep-dive-into-dns-messages/
-https://www.ques10.com/p/10908/explain-dns-message-format-with-neat-diagram-1/
-https://medium.com/@openmohan/dns-basics-and-building-simple-dns-server-in-go-6cb8e1cfe461
-https://github.com/wardviaene/golang-for-devops-course
+1. https://amriunix.com/post/deep-dive-into-dns-messages/
+2. https://www.ques10.com/p/10908/explain-dns-message-format-with-neat-diagram-1/
+3. https://medium.com/@openmohan/dns-basics-and-building-simple-dns-server-in-go-6cb8e1cfe461
+4. https://github.com/wardviaene/golang-for-devops-course
 
